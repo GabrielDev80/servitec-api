@@ -37,6 +37,10 @@ config.db = {
   testing: process.env.MONGO_TEST,
 };
 
+config.companyAlias = {
+  alias: process.env.COMPANY_ALIAS,
+};
+
 config.session = {
   secret: process.env.SESSION_SECRET,
   ttl: process.env.SESSION_TTL,
