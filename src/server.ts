@@ -9,7 +9,7 @@ const log = getLogger();
 const port = config.server.port;
 
 /* Start Server */
-const startServer = async () => {
+const startServer = async (): Promise<void> => {
   try {
     await connectDB();
 
@@ -19,7 +19,12 @@ const startServer = async () => {
       );
     });
   } catch (error) {
-    log.fatal(`*** CONNECTION STARTUP ERROR ***: , ${error.message}`);
+    if (error instanceof Error) {
+      log.fatal(`*** CONNECTION STARTUP ERROR ***: , ${error.message}`);
+    } else {
+      log.fatal("*** CONNECTION STARTUP ERROR ***: Unknown error");
+    }
+
     process.exit(1);
   }
 };
