@@ -6,12 +6,15 @@ const log = getLogger();
 
 let isConnected = false;
 
-export const connectDB = async () => {
+export const connectDB = async (): Promise<void> => {
   try {
     if (isConnected) {
       return;
     }
 
+    if (!config.db.cs) {
+      throw new Error("MONGO_URI is not defined");
+    }
     await mongoose.connect(config.db.cs, {
       dbName: config.db.dbName,
     });
@@ -19,7 +22,11 @@ export const connectDB = async () => {
     isConnected = true;
     log.info("Connected to MongoDB succesfully");
   } catch (error) {
-    log.fatal(`*** MongoDB connection error ***: ${error.message}`);
+    if (error instanceof Error) {
+      log.fatal(`*** MongoDB connection error ***: ${error.message}`);
+    } else {
+      log.fatal("*** MongoDB connection error ***: Unknown error");
+    }
     throw error;
   }
 };

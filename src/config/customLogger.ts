@@ -39,6 +39,10 @@ const consoleProdTransport = new winston.transports.Console({
   ),
 });
 
+type CustomLogger = winston.Logger & {
+  fatal: winston.LeveledLogMethod;
+};
+
 export const devLog = winston.createLogger({
   levels: customLevelsOptions.levels,
   transports: isVercel
@@ -54,7 +58,7 @@ export const devLog = winston.createLogger({
           ),
         }),
       ],
-});
+}) as CustomLogger;
 
 export const prodLog = winston.createLogger({
   levels: customLevelsOptions.levels,
@@ -71,4 +75,4 @@ export const prodLog = winston.createLogger({
           ),
         }),
       ],
-});
+}) as CustomLogger;
