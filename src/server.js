@@ -11,8 +11,7 @@ const port = config.server.port;
 /* Start Server */
 const startServer = async () => {
   try {
-    // await connectDB();
-    log.warn("Conexión a Base de Datos inexistente!!!");
+    await connectDB();
 
     app.listen(port, () => {
       log.info(
